@@ -18,8 +18,12 @@ This is a comprehensive, production-ready multi-step form implementation in Flut
 
 // add svg image 
 ## user flow and process diagram
+![alt text](user_flow_svg.svg)
 
-<img src="https://github.com/alamodi/flutter-form-management-template/blob/main/images/user_flow.svg" width="500">
+
+
+## screan shots
+![alt text](<Screenshot 2025-08-17 at 1.18.00 AM.png>) ![alt text](<Screenshot 2025-08-17 at 1.18.06 AM.png>) ![alt text](<Screenshot 2025-08-17 at 1.18.49 AM.png>) ![alt text](<Screenshot 2025-08-17 at 1.19.29 AM.png>) ![alt text](<Screenshot 2025-08-17 at 1.19.39 AM.png>) ![alt text](<Screenshot 2025-08-17 at 1.19.45 AM.png>)
 
 
 
