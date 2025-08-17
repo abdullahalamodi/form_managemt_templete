@@ -11,18 +11,14 @@ import 'step_registry.dart';
 class FormNotifier extends StateNotifier<FormStateModel> {
   final FormPersistenceService persistenceService;
   final FormSubmissionService submissionService;
-  final PersonalDataValidator personalValidator;
-  final AddressDataValidator addressValidator;
-  final PreferencesDataValidator preferencesValidator;
+  final Map<FormStep, FormValidator> validators;
 
   Timer? _autoSaveTimer;
 
   FormNotifier({
     required this.persistenceService,
     required this.submissionService,
-    required this.personalValidator,
-    required this.addressValidator,
-    required this.preferencesValidator,
+    required this.validators,
   }) : super(FormStateModel(
           currentStep: FormStep.personal,
           data: FormData.empty(),
@@ -120,17 +116,21 @@ class FormNotifier extends StateNotifier<FormStateModel> {
   }
 
   Future<bool> _validateStep(FormStep step) async {
-    ValidationResult result;
+    final validator = validators[step];
+    if (validator == null) {
+      return true; // No validator for this step
+    }
 
+    ValidationResult result;
     switch (step) {
       case FormStep.personal:
-        result = await personalValidator.validateAsync(state.data.personal);
+        result = await validator.validateAsync(state.data.personal);
         break;
       case FormStep.address:
-        result = addressValidator.validate(state.data.address);
+        result = validator.validate(state.data.address);
         break;
       case FormStep.preferences:
-        result = preferencesValidator.validate(state.data.preferences);
+        result = validator.validate(state.data.preferences);
         break;
     }
 
@@ -148,11 +148,9 @@ class FormNotifier extends StateNotifier<FormStateModel> {
 
     try {
       // Validate all steps
-      final allValid = await Future.wait([
-        _validateStep(FormStep.personal),
-        _validateStep(FormStep.address),
-        _validateStep(FormStep.preferences),
-      ]).then((results) => results.every((r) => r));
+      final allValid = await Future.wait(
+              validators.keys.map((step) => _validateStep(step)))
+          .then((results) => results.every((r) => r));
 
       if (!allValid) {
         state = state.copyWith(

@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:form_managemt_templete/features/multi_step_form/data/form_data.dart';
 
 import '../data/form_services.dart';
 import 'form_notifier.dart';
@@ -20,8 +21,10 @@ final formStateProvider =
   return FormNotifier(
     persistenceService: ref.watch(formPersistenceServiceProvider),
     submissionService: ref.watch(formSubmissionServiceProvider),
-    personalValidator: ref.watch(personalValidatorProvider),
-    addressValidator: ref.watch(addressValidatorProvider),
-    preferencesValidator: ref.watch(preferencesValidatorProvider),
+    validators: {
+      FormStep.personal: ref.watch(personalValidatorProvider),
+      FormStep.address: ref.watch(addressValidatorProvider),
+      FormStep.preferences: ref.watch(preferencesValidatorProvider),
+    },
   );
 });
