@@ -39,9 +39,14 @@ class FormNotifier extends StateNotifier<FormStateModel> {
   Future<void> _loadSavedData() async {
     final (data, step) = await persistenceService.loadFormData();
     if (data != null) {
+      final currentStep = step ?? FormStep.personal;
+      final completedSteps =
+          FormStep.values.where((s) => s.index < currentStep.index).toSet();
+
       state = state.copyWith(
         data: data,
-        currentStep: step ?? FormStep.personal,
+        currentStep: currentStep,
+        completedSteps: completedSteps,
       );
       await _validateCurrentStep();
     }
@@ -171,6 +176,6 @@ class FormNotifier extends StateNotifier<FormStateModel> {
   }
 
   void clearError() {
-    state = state.copyWith(submitError: null);
+    state = state.copyWith(clearSubmitError: true);
   }
 }

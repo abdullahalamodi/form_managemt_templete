@@ -32,6 +32,7 @@ class FormStateModel {
     bool? isSubmitting,
     String? submitError,
     bool? isAutoSaving,
+    bool clearSubmitError = false,
   }) =>
       FormStateModel(
         currentStep: currentStep ?? this.currentStep,
@@ -39,7 +40,7 @@ class FormStateModel {
         validationResults: validationResults ?? this.validationResults,
         completedSteps: completedSteps ?? this.completedSteps,
         isSubmitting: isSubmitting ?? this.isSubmitting,
-        submitError: submitError ?? this.submitError,
+        submitError: clearSubmitError ? null : submitError ?? this.submitError,
         isAutoSaving: isAutoSaving ?? this.isAutoSaving,
       );
 

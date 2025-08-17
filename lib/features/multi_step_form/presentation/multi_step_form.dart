@@ -196,11 +196,12 @@ class MultiStepForm extends ConsumerWidget {
   Widget _buildActionButton(
       BuildContext context, FormStateModel formState, FormNotifier notifier) {
     final isLastStep = StepRegistry.getNextStep(formState.currentStep) == null;
+    final isCurrentStepValid = formState.isStepValid(formState.currentStep);
 
     if (isLastStep) {
       // Submit Button
       return ElevatedButton.icon(
-        onPressed: formState.isSubmitting
+        onPressed: formState.isSubmitting || !isCurrentStepValid
             ? null
             : () async {
                 await notifier.submitForm();
