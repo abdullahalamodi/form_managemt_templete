@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:form_managemt_templete/multistep_form_full_code.dart';
+
+import 'features/multi_step_form/presentation/home_page.dart';
 
 void main() {
-  runApp(
-    ProviderScope(
-      child: MyApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,10 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Multi-Step Form Demo',
+      title: 'Flutter Multi-Step Form',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        useMaterial3: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const HomePage(),
     );
